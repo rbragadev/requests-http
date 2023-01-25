@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
 import { Curso } from '../curso';
 import { CursosService } from '../cursos.service';
@@ -9,7 +10,11 @@ import { CursosService } from '../cursos.service';
   styleUrls: ['./cursos-lista.component.scss'],
 })
 export class CursosListaComponent implements OnInit {
-  constructor(private service: CursosService) {}
+  constructor(
+    private service: CursosService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   //cursos!: Curso[];
 
   cursos$!: Observable<Curso[]>;
@@ -23,5 +28,9 @@ export class CursosListaComponent implements OnInit {
         return of();
       })
     );
+  }
+
+  onEdit(id: any) {
+    this.router.navigate(['editar', id], { relativeTo: this.route });
   }
 }
