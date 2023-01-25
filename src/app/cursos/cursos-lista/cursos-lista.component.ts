@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { Curso } from '../curso';
 import { CursosService } from '../cursos.service';
 
@@ -17,6 +17,11 @@ export class CursosListaComponent implements OnInit {
   ngOnInit(): void {
     // this.service.list().subscribe((dados) => (this.cursos = dados));
 
-    this.cursos$ = this.service.list();
+    this.cursos$ = this.service.list().pipe(
+      catchError((error) => {
+        console.error(error);
+        return of();
+      })
+    );
   }
 }
